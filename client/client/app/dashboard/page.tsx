@@ -1,9 +1,18 @@
+'use client';
+
+import { useEffect } from "react";
+
 export default function DashboardPage() {
+
   return (
-    <main className="p-10">
+   <div>
       <h1 className="text-3xl font-bold">
         Dashboard
       </h1>
-    </main>
+
+      <p className="mt-2 text-slate-500">
+        Welcome to Raja Offset ERP
+      </p>
+    </div>
   );
 }

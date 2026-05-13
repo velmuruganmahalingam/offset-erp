@@ -1,7 +1,8 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { type Response } from 'express';
+import { JwtGuard } from './gaurds/jwt.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -23,6 +24,21 @@ export class AuthController {
         return{
             message:data.message,
             user:data.user
+        }
+    }
+
+    @UseGuards(JwtGuard)
+    @Get('me')
+    getMe(@Req() req:any){
+        return req.user;
+    }
+
+    @Post('logout')
+    logout(@Res({passthrough:true})res:Response){
+        res.clearCookie('token');
+
+        return {
+            message:'Logout Successfully'
         }
     }
 }
