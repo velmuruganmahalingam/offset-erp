@@ -11,7 +11,7 @@ export default function DashboardPage() {
       </h1>
 
       <p className="mt-2 text-slate-500">
-        Welcome to Raja Offset ERP
+        Welcome to Raja Offset
       </p>
     </div>
   );

@@ -17,3 +17,98 @@ model User {
 
   createdAt DateTime @default(now())
 }
+
+model Project {
+  id Int @id @default(autoincrement())
+
+  ofNo String @unique
+
+  orderDate DateTime?
+
+  proofDate DateTime?
+
+  deliveryDate DateTime?
+
+  size String?
+
+  gsm String?
+
+  numberOfCopies Int?
+
+  layout String?
+
+  designBy String?
+
+  rawMaterialByParty Boolean @default(false)
+
+  openStyle String?
+
+  numberOfColours Int?
+
+  extraColour String?
+
+  specialEffects String[]
+
+  lamination String?
+                                                                
+  laminationFinish String?                                                                                                
+
+  creasing Boolean @default(false)
+
+  pasting Boolean @default(false)
+
+  designDetails String?
+
+  numberOfPapers Int?
+
+  numberOfPages Int?
+
+  numberOfPlates Int?
+
+  numberOfDrawings Int?
+
+  numberOfPositive Int?
+
+  numberOfCD Int?
+
+  jobType String
+
+  processType String
+
+  customerName String
+
+  mobile String?
+
+  place String?
+
+  orderTakenBy String?
+
+  coverDetails Json?
+
+  paymentDetails Json?
+
+  workflow Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PaperSize {
+  id       Int @id @default(autoincrement())
+  name     String
+  isActive Boolean @default(true)
+
+  gsmOptions PaperGsm[]
+}
+
+model PaperGsm {
+  id       Int @id @default(autoincrement())
+
+  gsm      Int
+  paperType String
+
+  isActive Boolean @default(true)
+
+  sizeId Int
+  size   PaperSize @relation(fields: [sizeId], references: [id])
+}
