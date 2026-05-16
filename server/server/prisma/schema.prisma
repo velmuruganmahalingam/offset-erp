@@ -45,6 +45,8 @@ model Project {
 
   numberOfColours Int?
 
+  nofcolors String?
+
   extraColour String?
 
   specialEffects String[]
@@ -94,21 +96,39 @@ model Project {
 }
 
 model PaperSize {
-  id       Int @id @default(autoincrement())
-  name     String
-  isActive Boolean @default(true)
+  id        Int @id @default(autoincrement())
+  name      String @unique
+  isActive  Boolean @default(true)
 
-  gsmOptions PaperGsm[]
+  mappings  PaperOption[]
 }
 
-model PaperGsm {
-  id       Int @id @default(autoincrement())
+model Gsm {
+  id        Int @id @default(autoincrement())
+  value     Int @unique
+  isActive  Boolean @default(true)
 
-  gsm      Int
-  paperType String
+  mappings  PaperOption[]
+}
 
-  isActive Boolean @default(true)
+model PaperType {
+  id        Int @id @default(autoincrement())
+  name      String @unique
+  isActive  Boolean @default(true)
+
+  mappings  PaperOption[]
+}
+
+model PaperOption {
+  id Int @id @default(autoincrement())
 
   sizeId Int
-  size   PaperSize @relation(fields: [sizeId], references: [id])
+  gsmId Int
+  paperTypeId Int
+
+  size PaperSize @relation(fields: [sizeId], references: [id])
+  gsm Gsm @relation(fields: [gsmId], references: [id])
+  paperType PaperType @relation(fields: [paperTypeId], references: [id])
+
+  @@unique([sizeId, gsmId, paperTypeId])
 }

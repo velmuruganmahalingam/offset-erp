@@ -293,7 +293,7 @@ export default function ProjectStep({
                             No.of Colors
                         </label>
                         <select
-                            name="nofcolors"
+                            name="numberOfColours"
                             value={formData.numberOfColours}
                             onChange={handleChange}
                             className="h-10 w-full rounded-md border px-3">

@@ -13,6 +13,8 @@ interface PaymentStepProps {
   nextStep: () => void;
 
   prevStep: () => void;
+
+  handleSubmit: () => void;
 }
 
 const deliveryOptions = [
@@ -25,6 +27,7 @@ export default function PaymentStep({
   setFormData,
   nextStep,
   prevStep,
+  handleSubmit
 }: PaymentStepProps) {
   const paymentDetails =
     formData.paymentDetails || {};
@@ -199,7 +202,7 @@ export default function PaymentStep({
           </button>
 
           <button
-            onClick={nextStep}
+            onClick={handleSubmit}
             className="rounded-lg bg-black px-6 py-2 text-sm text-white"
           >
             Finish

@@ -16,6 +16,7 @@
     "postcss": "^8.5.14",
     "radix-ui": "^1.4.3",
     "react": "19.2.4",
+    "react-datepicker": "^9.1.0",
     "react-dom": "19.2.4",
     "shadcn": "^4.7.0",
     "tailwind-merge": "^3.6.0",

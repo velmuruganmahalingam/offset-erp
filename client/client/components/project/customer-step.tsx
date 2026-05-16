@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import DatePicker from "react-datepicker";
 
 interface CustomerStepProps {
     formData: any;
@@ -63,40 +64,82 @@ export default function CustomerStep({
                     <div className="space-y-2">
                         <label className="text-sm font-medium">
                             Order Date
-                        </label>
+                        </label><br />
 
-                        <Input
-                            type="date"
-                            name="orderDate"
-                            value={formData.orderDate}
-                            onChange={handleChange}
+                        <DatePicker
+                            selected={
+                                formData.orderDate
+                                    ? new Date(formData.orderDate)
+                                    : null
+                            }
+                            onChange={(date:any) =>
+                                setFormData({
+                                    ...formData,
+                                    orderDate: date?.toISOString() || '',
+                                })
+                            }
+                            showTimeSelect
+                            timeFormat="hh:mm aa"
+                            timeIntervals={5}
+                            dateFormat="dd/MM/yyyy hh:mm aa"
+                            placeholderText="Select Order Date"
+                            className="w-full rounded-lg border bg-white px-3 py-2"
                         />
                     </div>
 
                     <div className="space-y-2">
                         <label className="text-sm font-medium">
                             Proof Date
-                        </label>
+                        </label><br />
 
-                        <Input
-                            type="date"
-                            name="proofDate"
-                            value={formData.proofDate}
-                            onChange={handleChange}
-                        />
+                        <DatePicker
+                            selected={
+                                formData.proofDate
+                                ? new Date(formData.proofDate) 
+                                : null
+                            }
+                            onChange={(date:any)=>
+                                setFormData({
+                                    ...formData,
+                                    proofDate:date?.toISOString() || '', 
+                                })
+                            }
+                            showTimeSelect
+                            timeFormat="hh:mm aa"
+                            timeIntervals={5}
+                            dateFormat= "dd/MM/yyyy hh:mm aa"
+                            placeholderText="Select Proof Date"
+                            className="w-full rounded-lg border bg-white px-3 py-2" 
+                            />
                     </div>
 
                     <div className="space-y-2">
                         <label className="text-sm font-medium">
                             Delivery Date
-                        </label>
+                        </label><br />
 
-                        <Input
-                            type="date"
-                            name="deliveryDate"
-                            value={formData.deliveryDate}
-                            onChange={handleChange}
-                        />
+                        <DatePicker
+                            selected={
+                                formData.deliveryDate
+                                ? new Date(formData.deliveryDate)
+                                :null
+                            }
+
+                            onChange={(date:any)=>
+                                setFormData({
+                                    ...formData,
+                                    deliveryDate:date?.toISOString() || ''
+                                })
+
+                            }
+                            showTimeSelect
+                            timeFormat="hh:mm aa"
+                            timeIntervals={5}
+                            dateFormat="dd/MM/yyyy hh:mm aa"
+                            placeholderText="Select Delivery Date"
+                            className="w-full rounded-lg border bg-white px-3 py-2"
+                            />
+
                     </div>
 
                     <div className="space-y-2">

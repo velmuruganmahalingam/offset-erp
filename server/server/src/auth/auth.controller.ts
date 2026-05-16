@@ -16,9 +16,10 @@ export class AuthController {
         const data = await this.authService.login(body);
         res.cookie('token',data.token,{
             httpOnly:true,
-            secure:false,
+            secure:process.env.NODE_ENV === 'production',
             sameSite:'lax',
-            maxAge:1000 * 60 * 60 * 24
+            maxAge:1000 * 60 * 60 * 24,
+            path:'/'
         });
 
         return{

@@ -12,7 +12,7 @@ export default function DashboardLayout({children,}:{children:React.ReactNode}){
                 credentials:'include',
             },
         )
-        router.push('/login')
+        router.replace('/login')
     }
 return(
     <main className="flex h-screen overflow-hidden">

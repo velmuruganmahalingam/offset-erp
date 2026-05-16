@@ -9,10 +9,12 @@ import { PaperModule } from './paper/paper.module';
 import { ProjectService } from './project/project.service';
 import { ProjectController } from './project/project.controller';
 import { ProjectModule } from './project/project.module';
+import { PaperController } from './paper/paper.controller';
+import { PaperService } from './paper/paper.service';
 
 @Module({
   imports: [AuthModule, PrismaModule, AuthModule, UserModule, PaperModule, ProjectModule],
-  controllers: [AppController, ProjectController],
-  providers: [AppService, UserService, ProjectService],
+  controllers: [AppController, ProjectController,PaperController],
+  providers: [AppService, UserService, ProjectService,PaperService],
 })
 export class AppModule {}

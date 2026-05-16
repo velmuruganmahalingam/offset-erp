@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "PaperGsm" ALTER COLUMN "gsm" SET DATA TYPE TEXT;
