@@ -1,5 +1,8 @@
+import { useGetOptionBySizeQuery, useGetSizesQuery } from "@/app/services/paperApi";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { useEffect, useState } from "react";
 
 interface ProjectStepProps {
     formData: any;
@@ -79,6 +82,14 @@ export default function ProjectStep({
     nextStep,
     prevStep,
 }: ProjectStepProps) {
+    const [selectedSizeId, setSelectedSizeId] = useState<number | null>(null)
+
+    const { data: sizes = [] } = useGetSizesQuery();
+
+    const { data: paperOption = [] } = useGetOptionBySizeQuery(
+        selectedSizeId ?? skipToken
+    )
+
     const handleChange = (
         e: React.ChangeEvent<
             HTMLInputElement | HTMLSelectElement
@@ -97,6 +108,15 @@ export default function ProjectStep({
                     : value,
         }));
     };
+
+
+
+    useEffect(() => {
+        console.log(formData)
+        // if(selectedSizeId){
+        //     getOptions()
+        // }
+    })
 
     const toggleSpecialEffect = (
         effect: string
@@ -143,20 +163,32 @@ export default function ProjectStep({
 
                         <select
                             name="size"
-                            value={formData.size}
-                            onChange={handleChange}
+                            value={selectedSizeId ?? ''}
+                            onChange={(e) => {
+                                const sizeId = Number(e.target.value)
+
+                                setSelectedSizeId(sizeId)
+
+                                const selectedSize = sizes.find((item: any) => item.id == sizeId)
+
+                                setFormData({
+                                    ...formData,
+                                    size: selectedSize?.name || '',
+                                    gsm: '',
+                                });
+                            }}
                             className="h-10 w-full rounded-md border px-3"
                         >
                             <option value="">
                                 Select Size
                             </option>
 
-                            {sizes.map((size) => (
+                            {sizes?.map((size: any) => (
                                 <option
-                                    key={size}
-                                    value={size}
+                                    key={size.id}
+                                    value={size.id}
                                 >
-                                    {size}
+                                    {size.name}
                                 </option>
                             ))}
                         </select>
@@ -170,20 +202,33 @@ export default function ProjectStep({
                         <select
                             name="gsm"
                             value={formData.gsm}
-                            onChange={handleChange}
-                            className="h-10 w-full rounded-md border px-3"
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    gsm: e.target.value,
+                                })
+                            }
+                            className="w-full border rounded-lg px-3 py-2"
                         >
                             <option value="">
                                 Select GSM
                             </option>
 
-                            {gsmOptions.map((gsm) => (
+                            {paperOption.map((option: any) => (
+
                                 <option
-                                    key={gsm}
-                                    value={gsm}
+                                    key={option.id}
+                                    value={
+                                        `${option.gsm.value} GSM ${option.paperType.name}`
+                                    }
                                 >
-                                    {gsm}
+
+                                    {option.gsm.value} GSM
+                                    {' '}
+                                    {option.paperType.name}
+
                                 </option>
+
                             ))}
                         </select>
                     </div>

@@ -35,7 +35,7 @@ return(
           </Link>
 
           <Link
-            href="/dashboard/Project/create"
+            href="/dashboard/Project"
             className="block rounded-lg px-4 py-3 hover:bg-slate-900"
           >
             Projects

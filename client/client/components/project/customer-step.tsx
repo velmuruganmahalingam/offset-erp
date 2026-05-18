@@ -52,6 +52,21 @@ export default function CustomerStep({
         }));
     };
 
+    const getPrefix = (processType: string) => {
+
+        switch (processType) {
+
+            case 'Multicolor':
+                return 'ROMC'
+
+            case 'Cutcolor':
+                return 'ROCC'
+
+            default:
+                return ''
+        }
+    }
+
     return (
         <Card>
             <CardContent className="space-y-6 p-6">
@@ -72,7 +87,7 @@ export default function CustomerStep({
                                     ? new Date(formData.orderDate)
                                     : null
                             }
-                            onChange={(date:any) =>
+                            onChange={(date: any) =>
                                 setFormData({
                                     ...formData,
                                     orderDate: date?.toISOString() || '',
@@ -95,22 +110,22 @@ export default function CustomerStep({
                         <DatePicker
                             selected={
                                 formData.proofDate
-                                ? new Date(formData.proofDate) 
-                                : null
+                                    ? new Date(formData.proofDate)
+                                    : null
                             }
-                            onChange={(date:any)=>
+                            onChange={(date: any) =>
                                 setFormData({
                                     ...formData,
-                                    proofDate:date?.toISOString() || '', 
+                                    proofDate: date?.toISOString() || '',
                                 })
                             }
                             showTimeSelect
                             timeFormat="hh:mm aa"
                             timeIntervals={5}
-                            dateFormat= "dd/MM/yyyy hh:mm aa"
+                            dateFormat="dd/MM/yyyy hh:mm aa"
                             placeholderText="Select Proof Date"
-                            className="w-full rounded-lg border bg-white px-3 py-2" 
-                            />
+                            className="w-full rounded-lg border bg-white px-3 py-2"
+                        />
                     </div>
 
                     <div className="space-y-2">
@@ -121,14 +136,14 @@ export default function CustomerStep({
                         <DatePicker
                             selected={
                                 formData.deliveryDate
-                                ? new Date(formData.deliveryDate)
-                                :null
+                                    ? new Date(formData.deliveryDate)
+                                    : null
                             }
 
-                            onChange={(date:any)=>
+                            onChange={(date: any) =>
                                 setFormData({
                                     ...formData,
-                                    deliveryDate:date?.toISOString() || ''
+                                    deliveryDate: date?.toISOString() || ''
                                 })
 
                             }
@@ -138,7 +153,7 @@ export default function CustomerStep({
                             dateFormat="dd/MM/yyyy hh:mm aa"
                             placeholderText="Select Delivery Date"
                             className="w-full rounded-lg border bg-white px-3 py-2"
-                            />
+                        />
 
                     </div>
 
@@ -146,12 +161,49 @@ export default function CustomerStep({
                         <label className="text-sm font-medium">
                             OF Number
                         </label>
-                        <Input
-                            placeholder="OF Number"
-                            name="ofNo"
-                            value={formData.ofNo}
-                            onChange={handleChange}
-                        />
+                        <div className="flex">
+
+                            <div
+                                className="
+            flex
+            items-center
+            rounded-l-md
+            border
+            border-r-0
+            bg-gray-100
+            px-3
+            text-sm
+            font-medium
+            text-gray-700
+        "
+                            >
+                                {getPrefix(formData.processType)}
+                            </div>
+
+                            <Input
+                                placeholder="Enter Number"
+                                value={
+                                    formData.ofNo.replace(
+                                        getPrefix(formData.processType),
+                                        ''
+                                    )
+                                }
+                                onChange={(e) => {
+
+                                    const number =
+                                        e.target.value.replace(/\D/g, '')
+
+                                    setFormData({
+                                        ...formData,
+
+                                        ofNo:
+                                            `${getPrefix(formData.processType)}${number}`
+                                    })
+                                }}
+                                className="rounded-l-none"
+                            />
+
+                        </div>
                     </div>
 
 
