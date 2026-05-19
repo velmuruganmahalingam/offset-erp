@@ -10,7 +10,13 @@ export const projectApi = createApi({
         getProject:
         builder.query<any,void>({
             query:()=>'/project'
+        }),
+
+        getProjectById:
+            builder.query({
+                query:(id)=>`/project/${id}`
+                       
         })
     })
 })
-export const {useGetProjectQuery} = projectApi
+export const {useGetProjectQuery,useGetProjectByIdQuery} = projectApi

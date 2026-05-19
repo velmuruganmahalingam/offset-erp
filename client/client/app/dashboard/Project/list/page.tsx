@@ -5,8 +5,11 @@ import { useState } from "react"
 import {
     useGetProjectQuery
 } from "@/app/services/projectApi"
+import { useRouter } from "next/navigation"
 
 export default function ProjectList() {
+
+    const router = useRouter()
 
     const {
         data: projectData = [],
@@ -156,6 +159,14 @@ export default function ProjectList() {
                                 Job Type
                             </th>
 
+                            <th className="
+                                px-4
+                                py-3
+                                text-left
+                                font-semibold
+                            ">
+                                Action
+                            </th>
                         </tr>
 
                     </thead>
@@ -165,46 +176,92 @@ export default function ProjectList() {
                         {filteredProjects.map(
                             (project: any) => (
 
-                            <tr
-                                key={project.id}
-                                className="
+                                <tr
+                                    key={project.id}
+                                    className="
                                     border-t
                                     hover:bg-gray-50
                                     transition
                                 "
-                            >
+                                >
 
-                                <td className="px-4 py-3">
-                                    {project.id}
-                                </td>
+                                    <td className="px-4 py-3">
+                                        {project.id}
+                                    </td>
 
-                                <td className="
+                                    <td className="
                                     px-4
                                     py-3
                                     font-medium
                                 ">
-                                    {project.ofNo}
-                                </td>
+                                        {project.ofNo}
+                                    </td>
 
-                                <td className="px-4 py-3">
-                                    {project.customerName}
-                                </td>
+                                    <td className="px-4 py-3">
+                                        {project.customerName}
+                                    </td>
 
-                                <td className="px-4 py-3">
-                                    {
-                                        new Date(
-                                            project.deliveryDate
-                                        ).toLocaleString()
-                                    }
-                                </td>
+                                    <td className="px-4 py-3">
+                                        {
+                                            new Date(
+                                                project.deliveryDate
+                                            ).toLocaleString()
+                                        }
+                                    </td>
 
-                                <td className="px-4 py-3">
-                                    {project.jobType}
-                                </td>
+                                    <td className="px-4 py-3">
+                                        {project.jobType}
+                                    </td>
 
-                            </tr>
+                                    <td className="px-4 py-3">
+                                        <div className="flex gap-2">
 
-                        ))}
+                                            <button
+                                                onClick={() =>
+                                                    router.push(
+                                                        `/dashboard/project/${project.id}`
+                                                    )
+                                                }
+                                                className="
+                rounded-md
+                bg-blue-100
+                px-3
+                py-1
+                text-xs
+                font-medium
+                text-blue-700
+                hover:bg-blue-200
+            "
+                                            >
+                                                View
+                                            </button>
+
+                                            <button
+                                                onClick={() =>
+                                                    router.push(
+                                                        `/dashboard/project/edit/${project.id}`
+                                                    )
+                                                }
+                                                className="
+                rounded-md
+                bg-yellow-100
+                px-3
+                py-1
+                text-xs
+                font-medium
+                text-yellow-700
+                hover:bg-yellow-200
+            "
+                                            >
+                                                Edit
+                                            </button>
+
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                            ))}
 
                     </tbody>
 
