@@ -91,6 +91,8 @@ model Project {
 
   workflow Json?
 
+  workflows Workflow[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -131,4 +133,25 @@ model PaperOption {
   paperType PaperType @relation(fields: [paperTypeId], references: [id])
 
   @@unique([sizeId, gsmId, paperTypeId])
+}
+
+model Workflow {
+  id Int @id @default(autoincrement())
+
+  projectId Int
+  project Project @relation(fields:[projectId], references:[id])
+
+  stage String
+  status String
+
+  assignedTo String?
+
+  assignedSystem String?
+
+  assignedDate DateTime?
+  deadline DateTime?
+
+  notes String?
+
+  createdAt DateTime @default(now())
 }

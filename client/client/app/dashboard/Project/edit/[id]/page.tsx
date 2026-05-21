@@ -1,20 +1,6 @@
-'use Client'
-import { useGetProjectByIdQuery } from "@/app/services/projectApi";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import EditProject from "@/components/project/EditProject";
 
-export default function EditProject(){
-    const param = useParams()
-
-    const id = Number(param.id)
-
-    const {data} = useGetProjectByIdQuery(id)
-
-    const [formData, setFormData] = useState<any>(null)
-
-    useEffect(()=>{
-        if(data){
-            setFormData(data)
-        }
-    },[data])
+export default async function Page({params}:{params:Promise<{id:string}>}){
+    const { id } = await params;
+    return <EditProject id={id} />
 }

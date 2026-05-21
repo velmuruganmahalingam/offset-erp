@@ -1,3 +1,4 @@
+"use client";
 import { useGetOptionBySizeQuery, useGetSizesQuery } from "@/app/services/paperApi";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,20 +16,6 @@ interface ProjectStepProps {
 
     prevStep: () => void;
 }
-
-const sizes = [
-    "A4",
-    "A5",
-    "1/8",
-    "1/4",
-    "Demy",
-];
-
-const gsmOptions = [
-    "100 GSM",
-    "170 GSM",
-    "300 GSM",
-];
 
 const openStyles = [
     "None",
@@ -89,7 +76,19 @@ export default function ProjectStep({
     const { data: paperOption = [] } = useGetOptionBySizeQuery(
         selectedSizeId ?? skipToken
     )
+    useEffect(() => {
+        if (formData.size && sizes.length > 0) {
 
+            const matchedSize = sizes.find(
+                (item: any) =>
+                    item.name === formData.size
+            );
+
+            if (matchedSize) {
+                setSelectedSizeId(matchedSize.id);
+            }
+        }
+    }, [formData.size, sizes]);
     const handleChange = (
         e: React.ChangeEvent<
             HTMLInputElement | HTMLSelectElement
@@ -108,15 +107,6 @@ export default function ProjectStep({
                     : value,
         }));
     };
-
-
-
-    useEffect(() => {
-        console.log(formData)
-        // if(selectedSizeId){
-        //     getOptions()
-        // }
-    })
 
     const toggleSpecialEffect = (
         effect: string
@@ -166,11 +156,8 @@ export default function ProjectStep({
                             value={selectedSizeId ?? ''}
                             onChange={(e) => {
                                 const sizeId = Number(e.target.value)
-
                                 setSelectedSizeId(sizeId)
-
                                 const selectedSize = sizes.find((item: any) => item.id == sizeId)
-
                                 setFormData({
                                     ...formData,
                                     size: selectedSize?.name || '',
@@ -338,8 +325,8 @@ export default function ProjectStep({
                             No.of Colors
                         </label>
                         <select
-                            name="numberOfColours"
-                            value={formData.numberOfColours}
+                            name="nofcolors"
+                            value={formData.nofcolors}
                             onChange={handleChange}
                             className="h-10 w-full rounded-md border px-3">
                             <option value="">Select Colors</option>

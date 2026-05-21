@@ -14,10 +14,13 @@ import { PaperService } from './paper/paper.service';
 import { SmsService } from './sms/sms.service';
 import { SmsController } from './sms/sms.controller';
 import { SmsModule } from './sms/sms.module';
+import { WorkflowService } from './workflow/workflow.service';
+import { WorkflowController } from './workflow/workflow.controller';
+import { WorkflowModule } from './workflow/workflow.module';
 
 @Module({
-  imports: [AuthModule, PrismaModule, AuthModule, UserModule, PaperModule, ProjectModule, SmsModule],
-  controllers: [AppController, ProjectController,PaperController, SmsController],
-  providers: [AppService, UserService, ProjectService,PaperService, SmsService],
+  imports: [AuthModule, PrismaModule, AuthModule, UserModule, PaperModule, ProjectModule, SmsModule, WorkflowModule],
+  controllers: [AppController, ProjectController,PaperController, SmsController, WorkflowController],
+  providers: [AppService, UserService, ProjectService,PaperService, SmsService, WorkflowService],
 })
 export class AppModule {}

@@ -1,3 +1,4 @@
+'use client'
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import DatePicker from "react-datepicker";
