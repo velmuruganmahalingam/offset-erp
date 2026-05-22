@@ -27,7 +27,7 @@ const jobs = [
 
     {
         title: "Proof",
-        href: "/dashboard/prepress/jobs/proof",
+        href: "/dashboard/Prepress/job-flow/jobs/proof",
         icon: FileCheck,
         iconColor: "text-green-600",
         bgColor: "bg-green-100",

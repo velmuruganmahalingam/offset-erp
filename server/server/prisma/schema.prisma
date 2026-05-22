@@ -141,7 +141,10 @@ model Workflow {
   projectId Int
   project Project @relation(fields:[projectId], references:[id])
 
-  stage String
+  stageId     Int
+
+  stage WorkflowStage @relation(fields: [stageId], references: [id])
+
   status String
 
   assignedTo String?
@@ -154,4 +157,13 @@ model Workflow {
   notes String?
 
   createdAt DateTime @default(now())
+}
+
+model WorkflowStage {
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+  order     Int
+  isActive  Boolean @default(true)
+
+  workflows Workflow[]
 }

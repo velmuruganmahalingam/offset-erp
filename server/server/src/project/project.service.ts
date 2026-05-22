@@ -1,42 +1,61 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { CreateProjectDto } from 'src/dto/create-project.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class ProjectService {
+export class ProjectService implements OnModuleInit {
 
     constructor(
         private prisma: PrismaService
     ) { }
 
+    async onModuleInit() {
+        await this.prisma.workflowStage.createMany({
+            data: [
+                { name: "System Assign", order: 1 },
+                { name: "Proof", order: 2 },
+                { name: "Master Make", order: 3 },
+                { name: "Set Make", order: 4 },
+                { name: "Plate Making", order: 5 },
+                { name: "Printing", order: 6 },
+                { name: "Lamination", order: 7 },
+                { name: "Special Effect", order: 8 },
+                { name: "Final Cutting", order: 9 },
+                { name: "greasing", order: 10 },
+                { name: "pasting", order: 11 },
+                { name: "Dispatch", order: 12 },
+            ],
+            skipDuplicates: true
+        });
+    }
     async create(dto: CreateProjectDto) {
 
-        const project =
-            await this.prisma.project.create({
-                data: dto
+        return this.prisma.$transaction(async (tx) => {
+            // 1. create project
+            const project = await tx.project.create({
+                data: dto,
+            });
+            
+              const stages = await tx.workflowStage.findMany({
+                    where:{
+                        isActive:true,
+                    },
+                    orderBy:{
+                        order:'asc'
+                    }
+                });
+
+            // 2. create workflow pipeline
+            await tx.workflow.createMany({
+                data: stages.map((stage, idx) => ({
+                    projectId: project.id,
+                    stageId: stage.id,
+                    status: idx === 0 ? "Pending" : "Waiting",
+                }))
             });
 
-        await this.prisma.workflow.createMany({
-            data: [
-                {
-                    projectId: project.id,
-
-                    stage: 'Project',
-
-                    status: 'Completed',
-                },
-
-                {
-                    projectId: project.id,
-
-                    stage: 'System Assign',
-
-                    status: 'Pending',
-                }
-            ]
+            return project;
         });
-
-        return project;
     }
 
     async findAll() {

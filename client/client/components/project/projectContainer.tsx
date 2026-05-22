@@ -100,7 +100,43 @@ export default function ProjectContainer({
     const hasChanges =
       JSON.stringify(formData) !==
       JSON.stringify(originalData);
+    const normalizeProjectPayload = (formData: any) => {
+      return {
+        ...formData,
 
+        numberOfCopies: formData.numberOfCopies
+          ? Number(formData.numberOfCopies)
+          : null,
+
+        numberOfColours: formData.numberOfColours
+          ? Number(formData.numberOfColours)
+          : null,
+
+        numberOfPapers: formData.numberOfPapers
+          ? Number(formData.numberOfPapers)
+          : null,
+
+        numberOfPages: formData.numberOfPages
+          ? Number(formData.numberOfPages)
+          : null,
+
+        numberOfPlates: formData.numberOfPlates
+          ? Number(formData.numberOfPlates)
+          : null,
+
+        numberOfDrawings: formData.numberOfDrawings
+          ? Number(formData.numberOfDrawings)
+          : null,
+
+        numberOfPositive: formData.numberOfPositive
+          ? Number(formData.numberOfPositive)
+          : null,
+
+        numberOfCD: formData.numberOfCD
+          ? Number(formData.numberOfCD)
+          : null,
+      };
+    };
     try {
 
       if (mode === "edit") {
@@ -120,12 +156,12 @@ export default function ProjectContainer({
 
         await onUpdate({
           id: id!,
-          data: formData,
+          data: normalizeProjectPayload(formData),
         });
 
       } else {
-
-        await onCreate(formData);
+        const payload = normalizeProjectPayload(formData);
+        await onCreate(payload);
       }
 
       setFormData(initialFormState);

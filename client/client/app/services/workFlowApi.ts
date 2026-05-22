@@ -15,16 +15,34 @@ export const workflowApi = createApi({
 
   endpoints: (builder) => ({
 
-    getWorkFlow:
+    getSystemAssignQueue:
       builder.query<any, void>({
         query: () => "/workflow/system-assign",
 
         providesTags: ["workflow"],
       }),
 
+    getProofQueue: builder.query<any, void>({
+      query: () => "/workflow/proof",
+      providesTags: ["workflow"],
+    }),
+
+    assignSystem:
+      builder.mutation({
+        query: ({ id, data }) => ({
+          url: `/workflow/system-assign/${id}/assign`,
+          method: 'PATCH',
+          body: data,
+        }),
+
+        invalidatesTags: ['workflow']
+      })
+
   }),
 });
 
 export const {
-  useGetWorkFlowQuery,
+  useGetSystemAssignQueueQuery,
+  useAssignSystemMutation,
+  useGetProofQueueQuery
 } = workflowApi;
