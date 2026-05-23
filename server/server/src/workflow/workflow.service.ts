@@ -32,41 +32,49 @@ export class WorkflowService {
         });
     }
 
-    async assignSystem(
-        workflowId: number,
-        dto: AssignSystemDto
-    ) {
-        return this.prisma.workflow.update({
+    async assignSystem(workflowId: number, dto: AssignSystemDto) {
+
+        const workflow = await this.prisma.workflow.findUnique({
+            where: { id: workflowId },
+            include: { stage: true },
+        });
+
+        if (!workflow) throw new Error("Workflow not found");
+
+        const nextStage = await this.prisma.workflowStage.findFirst({
+            where: {
+                order: workflow.stage.order + 1,
+                isActive: true,
+            },
+        });
+
+        // 1. update current stage
+        await this.prisma.workflow.update({
             where: { id: workflowId },
             data: {
                 assignedSystem: dto.assignedSystem,
                 assignedTo: dto.assignedTo,
                 assignedDate: new Date(dto.assignedDate),
                 deadline: new Date(dto.deadLine),
-                status: "Assigned",
-            }
-        })
-    }
-
-    async getProofQueue() {
-        return this.prisma.workflow.findMany({
-            where: {
-                stage: {
-                    name: "Proof",
-                },
-                status: "Pending",
-            },
-
-            include: {
-                project: true,
-                stage: true,
-            },
-
-            orderBy: {
-                createdAt: "desc",
+                status: "Completed",
             },
         });
+
+        // 2. create next stage (Proof)
+        if (nextStage) {
+            return this.prisma.workflow.create({
+                data: {
+                    projectId: workflow.projectId,
+                    stageId: nextStage.id,
+                    status: "Pending",
+                },
+            });
+        }
+
+        return { message: "Workflow completed" };
     }
+
+    
 
     async moveToNextStage(workflowId: number) {
 

@@ -12,11 +12,6 @@ export class WorkflowController {
             .seedMissingWorkflows();
     }
 
-    @Get("proof")
-    getProofQueue() {
-        return this.workFlowService.getProofQueue();
-    }
-
     @Get('system-assign')
     getSystemAssignQueue() {
         return this.workFlowService.getSystemAssignQueue()

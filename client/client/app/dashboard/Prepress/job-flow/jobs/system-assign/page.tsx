@@ -1,5 +1,5 @@
 
-
+'use client'
 import { useGetSystemAssignQueueQuery } from "@/app/services/workFlowApi";
 import FlowTable from "@/components/workflow/flowTable";
 

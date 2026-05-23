@@ -22,11 +22,6 @@ export const workflowApi = createApi({
         providesTags: ["workflow"],
       }),
 
-    getProofQueue: builder.query<any, void>({
-      query: () => "/workflow/proof",
-      providesTags: ["workflow"],
-    }),
-
     assignSystem:
       builder.mutation({
         query: ({ id, data }) => ({
@@ -44,5 +39,4 @@ export const workflowApi = createApi({
 export const {
   useGetSystemAssignQueueQuery,
   useAssignSystemMutation,
-  useGetProofQueueQuery
 } = workflowApi;

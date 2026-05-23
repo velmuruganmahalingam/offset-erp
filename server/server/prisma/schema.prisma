@@ -8,12 +8,12 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  username  String   @unique
-  password  String
-  name      String
-  sections  String[]
-  isActive  Boolean  @default(true)
+  id       String   @id @default(uuid())
+  username String   @unique
+  password String
+  name     String
+  sections String[]
+  isActive Boolean  @default(true)
 
   createdAt DateTime @default(now())
 }
@@ -52,8 +52,8 @@ model Project {
   specialEffects String[]
 
   lamination String?
-                                                                
-  laminationFinish String?                                                                                                
+
+  laminationFinish String?
 
   creasing Boolean @default(false)
 
@@ -98,38 +98,38 @@ model Project {
 }
 
 model PaperSize {
-  id        Int @id @default(autoincrement())
-  name      String @unique
-  isActive  Boolean @default(true)
+  id       Int     @id @default(autoincrement())
+  name     String  @unique
+  isActive Boolean @default(true)
 
-  mappings  PaperOption[]
+  mappings PaperOption[]
 }
 
 model Gsm {
-  id        Int @id @default(autoincrement())
-  value     Int @unique
-  isActive  Boolean @default(true)
+  id       Int     @id @default(autoincrement())
+  value    Int     @unique
+  isActive Boolean @default(true)
 
-  mappings  PaperOption[]
+  mappings PaperOption[]
 }
 
 model PaperType {
-  id        Int @id @default(autoincrement())
-  name      String @unique
-  isActive  Boolean @default(true)
+  id       Int     @id @default(autoincrement())
+  name     String  @unique
+  isActive Boolean @default(true)
 
-  mappings  PaperOption[]
+  mappings PaperOption[]
 }
 
 model PaperOption {
   id Int @id @default(autoincrement())
 
-  sizeId Int
-  gsmId Int
+  sizeId      Int
+  gsmId       Int
   paperTypeId Int
 
-  size PaperSize @relation(fields: [sizeId], references: [id])
-  gsm Gsm @relation(fields: [gsmId], references: [id])
+  size      PaperSize @relation(fields: [sizeId], references: [id])
+  gsm       Gsm       @relation(fields: [gsmId], references: [id])
   paperType PaperType @relation(fields: [paperTypeId], references: [id])
 
   @@unique([sizeId, gsmId, paperTypeId])
@@ -139,9 +139,9 @@ model Workflow {
   id Int @id @default(autoincrement())
 
   projectId Int
-  project Project @relation(fields:[projectId], references:[id])
+  project   Project @relation(fields: [projectId], references: [id])
 
-  stageId     Int
+  stageId Int
 
   stage WorkflowStage @relation(fields: [stageId], references: [id])
 
@@ -152,18 +152,45 @@ model Workflow {
   assignedSystem String?
 
   assignedDate DateTime?
-  deadline DateTime?
+  deadline     DateTime?
 
   notes String?
+
+  proofProcess ProofProcess[]
 
   createdAt DateTime @default(now())
 }
 
 model WorkflowStage {
-  id        Int     @id @default(autoincrement())
-  name      String  @unique
-  order     Int
-  isActive  Boolean @default(true)
+  id       Int     @id @default(autoincrement())
+  name     String  @unique
+  order    Int
+  isActive Boolean @default(true)
 
   workflows Workflow[]
+}
+
+model ProofProcess {
+  id Int @id @default(autoincrement())
+
+  workflowId Int
+  workflow   Workflow @relation(fields: [workflowId], references: [id])
+
+  correctionCount Int @default(0)
+
+  status String
+
+  designedBy String?
+
+  checkedBy String?
+
+  approvedBy String?
+
+  assignedDate DateTime?
+
+  deadline DateTime?
+
+  notes String?
+
+  createdAt DateTime @default(now())
 }
