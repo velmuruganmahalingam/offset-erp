@@ -7,11 +7,11 @@ import { WorkflowService } from 'src/workflow/workflow.service';
 export class ProofService {
     constructor(private prisma: PrismaService, private workflowService: WorkflowService) { }
 
-    async updateCorrection(proofId: number, dto: ProofUpdateDto) {
+    async updateCorrection(workflowId: number, dto: ProofUpdateDto) {
 
-        const proof = await this.prisma.proofProcess.findUnique({
+        const proof = await this.prisma.proofProcess.findFirst({
             where: {
-                id: proofId
+                workflowId,
             },
         })
 
@@ -23,7 +23,7 @@ export class ProofService {
 
         return this.prisma.proofProcess.update({
             where: {
-                id: proofId,
+                id: proof.id,
             },
 
             data: {
@@ -31,7 +31,7 @@ export class ProofService {
                 checkedBy: dto.checkedBy,
                 assignedDate: new Date(dto.assignedDate),
                 deadline: new Date(dto.deadline),
-                correctionCount: nextLevel,
+                correctionCount: proof.correctionCount + 1,
             },
         });
     }
@@ -62,6 +62,7 @@ export class ProofService {
             include: {
                 project: true,
                 stage: true,
+                proofProcess: true
             },
 
             orderBy: {
@@ -91,14 +92,23 @@ export class ProofService {
         });
     }
 
-    async sendForApproval(
-        proofId: number
-    ) {
+    async sendForApproval(workflowId: number) {
+
+        const proof =
+            await this.prisma.proofProcess.findFirst({
+                where: {
+                    workflowId,
+                },
+            });
+
+        if (!proof) {
+            throw new Error("Proof not found");
+        }
+
         return this.prisma.proofProcess.update({
             where: {
-                id: proofId,
+                id: proof.id,
             },
-
             data: {
                 status: "WaitingApproval",
             },

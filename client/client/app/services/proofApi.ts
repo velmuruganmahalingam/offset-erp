@@ -43,7 +43,7 @@ export const proofApi = createApi({
 
         finalApprove:builder.mutation({
             query:({id,data})=>({
-               url:'/proof/${id}/final-approve',
+               url:`/proof/${id}/final-approve`,
                method:"PATCH",
                body:data 
             }),

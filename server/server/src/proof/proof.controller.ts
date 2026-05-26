@@ -27,6 +27,7 @@ export class ProofController {
     sendForApproval(
         @Param("id") id: string
     ) {
+        console.log("proof id =", id);
         return this.proofService.sendForApproval(
             Number(id)
         );

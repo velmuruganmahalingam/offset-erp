@@ -15,7 +15,7 @@ export default function ProofChecking() {
   const router = useRouter();
 
   const proofId = Number(params.id);
-
+  console.log("route id", proofId);
   const { data, isLoading } =
     useGetProofByIdQuery(proofId);
 
@@ -43,7 +43,7 @@ export default function ProofChecking() {
   }
 
   const correctionLevel =
-    (data?.proofProcess?.correctionCount ?? 0) + 1;
+    (data?.proofProcess?.[0]?.correctionCount ?? 0) + 1;
 
   const handleSubmit = async () => {
 
@@ -56,7 +56,9 @@ export default function ProofChecking() {
 
     } else {
 
-      await sendApproval(proofId);
+      await sendApproval({
+        id: proofId,
+      });
 
     }
 

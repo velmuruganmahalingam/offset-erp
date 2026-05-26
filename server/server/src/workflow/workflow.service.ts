@@ -62,19 +62,34 @@ export class WorkflowService {
 
         // 2. create next stage (Proof)
         if (nextStage) {
-            return this.prisma.workflow.create({
-                data: {
-                    projectId: workflow.projectId,
-                    stageId: nextStage.id,
-                    status: "Pending",
-                },
-            });
+
+            const nextWorkflow =
+                await this.prisma.workflow.create({
+                    data: {
+                        projectId: workflow.projectId,
+                        stageId: nextStage.id,
+                        status: "Pending",
+                    },
+                });
+
+            // if next stage is Proof
+            if (nextStage.name === "Proof") {
+
+                await this.prisma.proofProcess.create({
+                    data: {
+                        workflowId: nextWorkflow.id,
+                        correctionCount: 0,
+                        status: "Pending",
+                    },
+                });
+
+            }
+
+            return nextWorkflow;
         }
 
         return { message: "Workflow completed" };
     }
-
-    
 
     async moveToNextStage(workflowId: number) {
 
