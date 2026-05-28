@@ -20,10 +20,13 @@ import { WorkflowModule } from './workflow/workflow.module';
 import { ProofService } from './proof/proof.service';
 import { ProofController } from './proof/proof.controller';
 import { ProofModule } from './proof/proof.module';
+import { SetmakeService } from './setmake/setmake.service';
+import { SetmakeController } from './setmake/setmake.controller';
+import { SetmakeModule } from './setmake/setmake.module';
 
 @Module({
-  imports: [AuthModule, PrismaModule, AuthModule, UserModule, PaperModule, ProjectModule, SmsModule, WorkflowModule, ProofModule],
-  controllers: [AppController, ProjectController,PaperController, SmsController, WorkflowController, ProofController],
-  providers: [AppService, UserService, ProjectService,PaperService, SmsService, WorkflowService, ProofService],
+  imports: [AuthModule, PrismaModule, AuthModule, UserModule, PaperModule, ProjectModule, SmsModule, WorkflowModule, ProofModule, SetmakeModule],
+  controllers: [AppController, ProjectController,PaperController, SmsController, WorkflowController, ProofController, SetmakeController],
+  providers: [AppService, UserService, ProjectService,PaperService, SmsService, WorkflowService, ProofService, SetmakeService],
 })
 export class AppModule {}

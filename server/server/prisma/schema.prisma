@@ -163,8 +163,11 @@ model Workflow {
 
 model WorkflowStage {
   id       Int     @id @default(autoincrement())
+
   name     String  @unique
+
   order    Int
+  
   isActive Boolean @default(true)
 
   workflows Workflow[]
@@ -187,6 +190,23 @@ model ProofProcess {
   approvedBy String?
 
   assignedDate DateTime?
+
+  deadline DateTime?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  setMake SetMake[]
+}
+
+model SetMake{
+  id Int @id @default(autoincrement())
+
+  proofProcessId  Int 
+  
+  proofprocess  ProofProcess @relation(fields:[proofProcessId], references:[id])
+
+  status String
 
   deadline DateTime?
 

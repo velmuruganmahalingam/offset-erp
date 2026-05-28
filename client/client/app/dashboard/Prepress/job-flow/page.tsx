@@ -35,7 +35,7 @@ const jobs = [
 
     {
         title: "Master Make",
-        href: "/dashboard/prepress/jobs/master-make",
+        href: "/dashboard/Prepress/job-flow/jobs/master-make",
         icon: Printer,
         iconColor: "text-purple-600",
         bgColor: "bg-purple-100",
@@ -43,7 +43,7 @@ const jobs = [
 
     {
         title: "Set Make",
-        href: "/dashboard/prepress/jobs/set-make",
+        href: "/dashboard/Prepress/job-flow/jobs/set-make",
         icon: Layers3,
         iconColor: "text-orange-600",
         bgColor: "bg-orange-100",
@@ -68,12 +68,12 @@ export default function PrepressJobsPage() {
             </div>
 
             <div className="
-        grid
-        grid-cols-1
-        gap-6
-        md:grid-cols-2
-        xl:grid-cols-4
-      ">
+                grid
+                grid-cols-1
+                gap-6
+                md:grid-cols-2
+                xl:grid-cols-4
+            ">
 
                 {jobs.map((job) => {
 
@@ -129,8 +129,7 @@ export default function PrepressJobsPage() {
 
                                     <p className="
                                         text-sm
-                                        text-muted-foreground
-                                    ">
+                                        text-muted-foreground">
                                         Open {job.title} jobs
                                     </p>
 
