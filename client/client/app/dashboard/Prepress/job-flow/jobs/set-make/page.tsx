@@ -1,36 +1,29 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { List, MonitorCog, Printer } from "lucide-react"
 import Link from "next/link"
-  const setMakeFlow = [
-        {
-            title: "Merge Jobs",
-            href: "/dashboard/Prepress/job-flow/jobs/set-make/smake",
-            icon: MonitorCog,
-            iconColor: 'text-blue-600',
-            bgColor: "bg-blue-100"
-        },
-        {
-            title: "Job-List",
-            href: "",
-            icon: Printer,
-            iconColor: 'text-blue-600',
-            bgColor: "bg-green-100"
-        },
-        {
-            title: "Job-List",
-            href: "",
-            icon: List,
-            iconColor: 'text-blue-600',
-            bgColor: "bg-green-100"
-        }
-    ]
+const setMakeFlow = [
+    {
+        title: "Merge Jobs",
+        href: "/dashboard/Prepress/job-flow/jobs/set-make/smake",
+        icon: MonitorCog,
+        iconColor: 'text-blue-600',
+        bgColor: "bg-blue-100"
+    },
+    {
+        title: "Job-List",
+        href: "",
+        icon: Printer,
+        iconColor: 'text-blue-600',
+        bgColor: "bg-green-100"
+    },
+]
 export default function Page() {
-  
+
     return (
-        <div className="space-y-6 p-6">
+        <div className="max-w-4xl mx-auto p-6 space-y-6">
             <div>
 
-                <h1 className="text-3xl font-bold">
+                <h1 className="text-2xl font-bold">
                     Set Make
                 </h1>
 
@@ -88,8 +81,8 @@ export default function Page() {
                                     <p className="
                                        text-sm
                                        text-muted-foreground">
-                                       Open {flow.title}
-                                       </p>
+                                        Open {flow.title}
+                                    </p>
                                 </CardContent>
                             </Card>
                         </Link>
