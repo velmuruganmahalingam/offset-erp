@@ -23,4 +23,12 @@ export class SetmakeService {
             }
         })
     }
+
+    // updateSetMake(){
+    //     return this.prisma.proofProcess.findUnique({
+    //         where:{
+
+    //         }
+    //     })
+    // }
 }
