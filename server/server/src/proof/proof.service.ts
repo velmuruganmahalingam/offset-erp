@@ -116,38 +116,77 @@ export class ProofService {
     }
 
     async finalApprove(
-        proofId: number,
-        dto: FinalApproveDto,
-    ) {
+    proofId: number,
+    dto: FinalApproveDto,
+) {
+    const proof = await this.prisma.proofProcess.findUnique({
+        where: {
+            id: proofId,
+        },
+        include: {
+            workflow: {
+                include: {
+                    project: true,
+                },
+            },
+        },
+    });
 
-        const proof =
-            await this.prisma.proofProcess.findUnique({
+    if (!proof) {
+        throw new Error("Proof not found");
+    }
+
+    const processType =
+        proof.workflow.project.ofNo;
+    
+    const jobType = processType.substring(0,4)
+
+    const isMultiColor = [
+        "ROMC",
+        "PDMC",
+    ].includes(jobType);
+
+    return this.prisma.$transaction(async (tx) => {
+
+        const approvedProof =
+            await tx.proofProcess.update({
                 where: {
                     id: proofId,
                 },
+                data: {
+                    approvedBy: dto.approvedBy,
+                    assignedDate: new Date(dto.assignedDate),
+                    deadline: new Date(dto.deadline),
+                    status: "Approved",
+                },
             });
 
-        if (!proof) {
-            throw new Error("Proof not found");
+        // Only initiate SetMake for Multi Color jobs
+        if (isMultiColor) {
+            await tx.setMake.create({
+                data: {
+                    proofProcessId:
+                        approvedProof.id,
+
+                    processType,
+
+                    status: "Pending",
+
+                    deadline:
+                        approvedProof.deadline,
+
+                    notes:
+                        approvedProof.notes,
+                },
+            });
         }
 
-        await this.prisma.proofProcess.update({
-            where: {
-                id: proofId,
-            },
-
-            data: {
-                approvedBy: dto.approvedBy,
-                assignedDate: new Date(dto.assignedDate),
-                deadline: new Date(dto.deadline),
-                status: "Approved",
-            },
-        });
-
-        // move workflow forward
-        return this.workflowService.moveToNextStage(
-            proof.workflowId
+        await this.workflowService.moveToNextStage(
+            proof.workflowId,
         );
-    }
+
+        return approvedProof;
+    });
+}
 
 }

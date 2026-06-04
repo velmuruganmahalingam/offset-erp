@@ -6,16 +6,20 @@ export class SetmakeService {
     constructor(private prisma: PrismaService) { }
 
     getSetMake() {
-        return this.prisma.proofProcess.findMany({
+        return this.prisma.setMake.findMany({
             where: {
-                status: "Approved"
+                status: "Pending"
             },
             include: {
-                workflow: {
-                    include: {
-                        project: {
-                            select: {
-                                ofNo: true
+                proofprocess:{
+                    include:{
+                        workflow: {
+                            include: {
+                                project: {
+                                    select: {
+                                        ofNo: true
+                                    }
+                                }
                             }
                         }
                     }
@@ -24,11 +28,24 @@ export class SetmakeService {
         })
     }
 
-    // updateSetMake(){
-    //     return this.prisma.proofProcess.findUnique({
-    //         where:{
 
-    //         }
-    //     })
-    // }
+    async updateSetMake(id:number){
+        const setMake = await this.prisma.setMake.findUnique({
+            where:{
+                id
+            }
+        })
+
+        if (!setMake){ throw new Error("Id not found")}
+
+        return this.prisma.setMake.update({
+            where:{
+                id,
+            },
+            data:{
+                status:'Make-Set'
+            }
+        })
+        
+    }
 }

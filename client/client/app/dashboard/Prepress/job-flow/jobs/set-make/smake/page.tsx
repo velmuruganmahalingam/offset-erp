@@ -1,22 +1,29 @@
 'use client'
-import { useGetSetMakeQueueQuery } from "@/app/services/setmakeApi"
+import { useGetSetMakeQueueQuery, useUpdateSetMakeMutation } from "@/app/services/setmakeApi"
 import { useMemo, useState } from "react"
 
 export default function MergeMake() {
     const { data } = useGetSetMakeQueueQuery();
+    const [updateSetMake, { isLoading }] =
+        useUpdateSetMakeMutation();
     const [formData, setFormData] = useState({
+        selectedId: 0,
         selectedOf: '',
         setMakeOf: '',
-        notes:''
+        notes: ''
     })
 
+    console.log(data)
     const ofNos = useMemo(
-        () => data?.map(({ id, workflow }: { id: number; workflow: { project: { ofNo: string } } }) => ({
-            id,
-            ofNo: workflow.project.ofNo,
-        })) ?? [],
+        () =>
+            data?.map((item: any) => ({
+                id: item.id,
+                ofNo: item.processType,
+            })) ?? [],
         [data]
     );
+
+    console.log(ofNos)
 
     const handleAddJob = () => {
         if (formData.selectedOf) {
@@ -26,6 +33,31 @@ export default function MergeMake() {
             }))
         }
     }
+
+    const handleSubmit = async () => {
+        if (!formData.selectedOf) {
+            alert("Please select a job");
+            return;
+        }
+
+        try {
+            await updateSetMake({
+                id: formData.selectedId,
+            }).unwrap();
+
+            alert("Set Make Updated");
+
+            setFormData({
+                selectedId: 0,
+                selectedOf: "",
+                setMakeOf: "",
+                notes: "",
+            });
+        } catch (error) {
+            console.error(error);
+            alert("Failed to update");
+        }
+    };
 
     return (
         <div className="max-w-4xl mx-auto p-6 space-y-6">
@@ -40,10 +72,13 @@ export default function MergeMake() {
                         <select
                             className="w-full border rounded p-2"
                             value={formData.selectedOf}
-                            onChange={(e) => setFormData(prev => ({
+                            onChange={(e) => {
+                                console.log()
+                                setFormData(prev => ({
                                 ...prev,
+                                selectedId: Number(e.target.value),
                                 selectedOf: e.target.value
-                            }))}
+                            }))}}
                         >
                             <option value="">-- Select OF Job --</option>
                             {ofNos.map((item: any) => (
@@ -65,22 +100,29 @@ export default function MergeMake() {
                     <label>Set-Make Of.No</label>
                     <input
                         className="w-full border rounded p-2"
-                        value={formData.setMakeOf}
+                        value={formData.selectedOf}
                         disabled
                     />
                 </div>
                 <div>
                     <label>Notes</label>
                     <textarea
-                    className="w-full border rounded p-2"
-                    value={formData.notes}
-                    onChange={(e)=>{
-                       setFormData((prev)=>({
-                        ...prev,
-                        notes:e.target.value
-                       }))
-                    }}/>
+                        className="w-full border rounded p-2"
+                        value={formData.notes}
+                        onChange={(e) => {
+                            setFormData((prev) => ({
+                                ...prev,
+                                notes: e.target.value
+                            }))
+                        }} />
                 </div>
+                <button
+                    onClick={handleSubmit}
+                    disabled={isLoading}
+                    className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+                >
+                    {isLoading ? "Submitting..." : "Submit"}
+                </button>
             </div>
         </div>
     )

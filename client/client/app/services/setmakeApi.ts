@@ -5,14 +5,22 @@ export const setmakeApi = createApi({
     baseQuery:fetchBaseQuery({
         baseUrl:'http://localhost:4001/setmake',
     }),
-    tagTypes:["setmakeApi"],
+    tagTypes:["setMake"],
     endpoints:(builder)=>({
         getSetMakeQueue:builder.query<any,void>({
             query:()=>`/merge`,
-            providesTags:['setmakeApi']
+            providesTags:['setMake']
+        }),
+
+        updateSetMake:builder.mutation({
+            query:({id})=>({
+            url:`/${id}/set-make`,
+            method:'PATCH'
+        }),
+        invalidatesTags:["setMake"]
         })
     })
 
 
 })
-export const {useGetSetMakeQueueQuery} = setmakeApi
+export const {useGetSetMakeQueueQuery,useUpdateSetMakeMutation} = setmakeApi

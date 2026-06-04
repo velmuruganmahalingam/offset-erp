@@ -206,6 +206,8 @@ model SetMake{
   
   proofprocess  ProofProcess @relation(fields:[proofProcessId], references:[id])
 
+  processType String?
+
   status String
 
   deadline DateTime?
