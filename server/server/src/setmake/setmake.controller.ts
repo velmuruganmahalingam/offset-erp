@@ -14,4 +14,8 @@ export class SetmakeController {
     async updateSetMake(@Param("id") id:string){
         return this.setmakeService.updateSetMake(Number(id));
     }
+    @Get('job-list')
+    async getJobList(){
+        return this.setmakeService.getJobList()
+    }
 }

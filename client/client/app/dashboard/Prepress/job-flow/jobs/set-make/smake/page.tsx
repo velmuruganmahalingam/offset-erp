@@ -34,7 +34,7 @@ export default function MergeMake() {
         }
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async () => {                                                                                  
         if (!formData.selectedOf) {
             alert("Please select a job");
             return;
@@ -73,16 +73,16 @@ export default function MergeMake() {
                             className="w-full border rounded p-2"
                             value={formData.selectedOf}
                             onChange={(e) => {
-                                console.log()
+                                const selected = ofNos.find((item:any)=>item.id===Number(e.target.value))
                                 setFormData(prev => ({
                                 ...prev,
                                 selectedId: Number(e.target.value),
-                                selectedOf: e.target.value
+                                selectedOf: selected?.ofNo || "",
                             }))}}
                         >
                             <option value="">-- Select OF Job --</option>
                             {ofNos.map((item: any) => (
-                                <option key={item.id} value={item.ofNo}>
+                                <option key={item.id} value={item.id}>
                                     {item.ofNo}
                                 </option>
                             ))}

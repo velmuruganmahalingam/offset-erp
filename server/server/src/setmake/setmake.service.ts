@@ -48,4 +48,27 @@ export class SetmakeService {
         })
         
     }
+
+    async getJobList(){
+       return this.prisma.setMake.findMany({
+            where:{
+                status:"Make-Set"
+            },
+            include: {
+                proofprocess:{
+                    include:{
+                        workflow: {
+                            include: {
+                                project: {
+                                    select: {
+                                        ofNo: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
 }

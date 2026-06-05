@@ -11,7 +11,7 @@ const setMakeFlow = [
     },
     {
         title: "Job-List",
-        href: "",
+        href: "/dashboard/Prepress/job-flow/jobs/set-make/job-list",
         icon: Printer,
         iconColor: 'text-blue-600',
         bgColor: "bg-green-100"

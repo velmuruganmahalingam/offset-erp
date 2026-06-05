@@ -4,6 +4,7 @@ export const setmakeApi = createApi({
     reducerPath:"setmakeApi",
     baseQuery:fetchBaseQuery({
         baseUrl:'http://localhost:4001/setmake',
+        credentials:'include'
     }),
     tagTypes:["setMake"],
     endpoints:(builder)=>({
@@ -18,9 +19,15 @@ export const setmakeApi = createApi({
             method:'PATCH'
         }),
         invalidatesTags:["setMake"]
+        }),
+        getJobList:builder.query<any,void>({
+            query:()=>({
+                url:`/job-list`,
+                providesTags:['setMake']
+            })
         })
     })
 
 
 })
-export const {useGetSetMakeQueueQuery,useUpdateSetMakeMutation} = setmakeApi
+export const {useGetSetMakeQueueQuery,useUpdateSetMakeMutation,useGetJobListQuery} = setmakeApi
