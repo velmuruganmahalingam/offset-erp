@@ -78,8 +78,7 @@ export default function MergeMake() {
                                 ...prev,
                                 selectedId: Number(e.target.value),
                                 selectedOf: selected?.ofNo || "",
-                            }))}}
-                        >
+                            }))}}>
                             <option value="">-- Select OF Job --</option>
                             {ofNos.map((item: any) => (
                                 <option key={item.id} value={item.id}>

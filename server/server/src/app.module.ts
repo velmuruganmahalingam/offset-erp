@@ -25,7 +25,7 @@ import { SetmakeController } from './setmake/setmake.controller';
 import { SetmakeModule } from './setmake/setmake.module';
 
 @Module({
-  imports: [AuthModule, PrismaModule, AuthModule, UserModule, PaperModule, ProjectModule, SmsModule, WorkflowModule, ProofModule, SetmakeModule],
+  imports: [AuthModule, PrismaModule, UserModule, PaperModule, ProjectModule, SmsModule, WorkflowModule, ProofModule, SetmakeModule],
   controllers: [AppController, ProjectController,PaperController, SmsController, WorkflowController, ProofController, SetmakeController],
   providers: [AppService, UserService, ProjectService,PaperService, SmsService, WorkflowService, ProofService, SetmakeService],
 })
