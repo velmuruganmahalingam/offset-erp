@@ -61,7 +61,8 @@ export class SetmakeService {
                             include: {
                                 project: {
                                     select: {
-                                        ofNo: true
+                                        ofNo: true,
+                                        customerName:true
                                     }
                                 }
                             }
