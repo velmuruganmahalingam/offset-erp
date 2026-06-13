@@ -203,6 +203,8 @@ model SetMake{
   id Int @id @default(autoincrement())
 
   proofProcessId  Int 
+
+  maker String?
   
   proofprocess  ProofProcess @relation(fields:[proofProcessId], references:[id])
 
@@ -211,6 +213,8 @@ model SetMake{
   status String
 
   deadline DateTime?
+
+  assignedDate DateTime? 
 
   notes String?
 

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { SetMakeDTO } from 'src/dto/setMake.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -27,7 +28,6 @@ export class SetmakeService {
             }
         })
     }
-
 
     async updateSetMake(id:number){
         const setMake = await this.prisma.setMake.findUnique({
@@ -69,6 +69,17 @@ export class SetmakeService {
                         }
                     }
                 }
+            }
+        })
+    }
+
+    async updateJobList(id:number,makeDto:SetMakeDTO){
+        return this.prisma.setMake.update({
+            where:{
+                id,
+            },
+            data:{
+                
             }
         })
     }
