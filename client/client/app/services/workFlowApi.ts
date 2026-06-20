@@ -7,7 +7,7 @@ export const workflowApi = createApi({
   reducerPath: "workflowApi",
 
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4001",
+    baseUrl: "process.env.NEXT_PUBLIC_API_URL",
     credentials: "include",
   }),
 

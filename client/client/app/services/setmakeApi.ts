@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const setmakeApi = createApi({
     reducerPath:"setmakeApi",
     baseQuery:fetchBaseQuery({
-        baseUrl:'http://localhost:4001/setmake',
+        baseUrl:'process.env.NEXT_PUBLIC_API_URL',
         credentials:'include'
     }),
     tagTypes:["setMake"],
